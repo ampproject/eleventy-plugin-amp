@@ -1,0 +1,9 @@
+<style>
+ button {
+   background: pink;
+   color: black;
+   padding: 1rem;
+ }
+</style>
+<button on="tap:AMP.setState({greeting: '{{ greeting }}'})">Say hello</button>
+<div data-amp-bind-text="greeting"></div>
