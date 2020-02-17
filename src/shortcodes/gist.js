@@ -21,6 +21,10 @@ module.exports = (...args) => {
     throw new Error('Missing gist id');
   }
   const id = args[0];
-  const layout = extractLayoutString(args.splice(1));
-  return `<amp-gist data-gistid="${id}" ${layout}></amp-gist>`;
+  try {
+    const layout = extractLayoutString(args.splice(1));
+    return `<amp-gist data-gistid="${id}" ${layout}></amp-gist>`;
+  } catch (_) {
+    throw new Error('Missing gist height. Please specify the embed height in px.');
+  }
 };
