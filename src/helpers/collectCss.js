@@ -26,7 +26,7 @@ const {
 
 class CollectCss {
   constructor(config) {
-    this.minifyCss = !!config.minifyCss || true;
+    this.minifyCss = config.minifyCss !== false;
   }
   transform(root) {
     if (!this.minifyCss) {
