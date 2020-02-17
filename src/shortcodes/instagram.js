@@ -16,15 +16,18 @@
 
 const {extractLayoutString} = require('../helpers/shortcodeLayoutParser');
 
+// Assume default aspect ratio to be 1:1 (responsive layout takes care of sizing)
+const DEFAULT_LAYOUT = {
+  layout: 'responsive',
+  width: 1,
+  height: 1,
+};
+
 module.exports = (...args) => {
   if (args.length == 0) {
     throw new Error('Missing instagram id');
   }
   const id = args[0];
-  const layout = extractLayoutString(args.splice(1), {
-    layout: 'responsive',
-    width: 1,
-    height: 1,
-  });
+  const layout = extractLayoutString(args.splice(1), DEFAULT_LAYOUT);
   return `<amp-instagram data-shortcode="${id}" ${layout}></amp-instagram>`;
 };
