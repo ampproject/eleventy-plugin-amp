@@ -12,7 +12,7 @@ npm install eleventy-plugin-amp --save-dev
 
 ## Usage
 
-Edit your Eleventy config file (probably `.eleventy.js`) and use `addPlugin` for integrating the plugin:
+Edit your Eleventy config file (probably `.eleventy.js`) and use [`addPlugin`](https://www.11ty.dev/docs/plugins/#add-the-plugin-to-eleventy-in-your-config-file) for integrating the AMP plugin:
 
 ```js
 const ampPlugin = require('@ampproject/eleventy-plugin-amp');
@@ -35,7 +35,25 @@ You can use AMP components out-of-the-box, For example, for creating an image ca
 </amp-carousel>
 ```
 
-There's no need to explicitly import the `amp-carousel` extension script, this is done automatically by the AMP plugin. Checkout the [AMP documentation for more components](https://amp.dev/documentation/components/) to use.
+There's no need to explicitly import the `amp-carousel` extension script as it will be added automatically by the AMP plugin:
+
+```
+<head>
+  ...
+  <!-- this will be added automatically -->
+  <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+  ...
+</head>
+<body>
+  <amp-carousel layout="responsive" width="300" height="200">
+    <amp-img src="image1.png" alt="an image"></amp-img>
+    <amp-img src="image2.png" alt="another image"></amp-img>
+    <amp-img src="image3.png" alt="and another another image"></amp-img>
+  </amp-carousel>
+</body>
+```
+
+Checkout the [AMP documentation for more components](https://amp.dev/documentation/components/) to use.
 
 ### Markdown Support
 
@@ -49,7 +67,7 @@ The AMP Plugin needs to be able to determine the image dimensions from the image
 
 ### Shortcodes
 
-AMP offers a rich set of third-party embeds. Some of these embeds are available via short codes (in all templating languages). They all follow the same pattern:
+AMP offers a rich set of third-party embeds. Some of these embeds are available via [shortcodes](https://www.11ty.dev/docs/shortcodes/) (in all templating languages). They all follow the same pattern:
 
 ```
 {% shortCodeName ['shortCodeParams']* layoutDefinition? %}
@@ -150,7 +168,7 @@ AMP requires all CSS to be inlined:
 
 A good idea is to use this approach to modularize your CSS to ensure that your pages will only pull in the CSS that is actually needed.
 
-**Tip:** Modularizing CSS helps to stay within AMP’s 50kb CSS limit. The AMP plugin will automatically perform minification.
+**Tip:** Modularizing CSS helps to stay within AMP’s 75kb CSS limit. The AMP plugin will automatically perform minification.
 
 ### Options
 
