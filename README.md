@@ -1,6 +1,6 @@
 # Eleventy AMP Plugin
 
-Quickly build interactive websites with Eleventy & AMP.
+Quickly build interactive websites with [Eleventy](https://www.11ty.dev) & [AMP](https://amp.dev).
 
 ## Installation
 
