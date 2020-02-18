@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "lint": "eslint src --ext js,jsx --quiet --fix",
+    "publish": "npm publish && git push --tags",
     "test": "jest"
   },
   "keywords": [
@@ -48,7 +49,7 @@
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-html": "6.0.0",
     "eslint-plugin-prettier": "3.1.2",
-    "jest": "^25.1.0",
+    "jest": "25.1.0",
     "prettier": "1.19.1"
   },
   "dependencies": {
