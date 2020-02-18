@@ -7,7 +7,7 @@ Quickly build interactive websites with Eleventy & AMP.
 Available on [npm](https://www.npmjs.com/package/@ampproject/eleventy-plugin-amp).
 
 ```
-npm install eleventy-plugin-amp --save-dev
+npm install @ampproject/eleventy-plugin-amp --save-dev
 ```
 
 ## Usage
