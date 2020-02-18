@@ -37,7 +37,7 @@ You can use AMP components out-of-the-box, For example, for creating an image ca
 
 There's no need to explicitly import the `amp-carousel` extension script as it will be added automatically by the AMP plugin:
 
-```
+```html
 <head>
   ...
   <!-- this will be added automatically -->
