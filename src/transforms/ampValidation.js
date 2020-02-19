@@ -17,7 +17,7 @@
 const toolboxLog = require('@ampproject/toolbox-core').log.tag('AMP Validation');
 const amphtmlValidator = require('amphtml-validator');
 
-const ampValidationTransforom = (eleventyConfig, options = {}) => {
+const ampValidationTransform = (eleventyConfig, options = {}) => {
   if (options.validation === false) {
     return;
   }
@@ -54,4 +54,4 @@ function createErrorMessage(error, outputPath) {
   return msg;
 }
 
-module.exports = ampValidationTransforom;
+module.exports = ampValidationTransform;

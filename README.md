@@ -180,6 +180,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(ampPlugin, {
     // Disable AMP validation (enabled by default)
     validation: false,
+    // Disable AMP Cache (enabled by default) 
+    ampCache: false,
     // Disable CSS minification (enabled by default)
     minifyCss: false,
     // For customizing the location of images assets, pass either a directory 
