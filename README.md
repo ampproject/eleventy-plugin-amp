@@ -188,6 +188,8 @@ module.exports = function(eleventyConfig) {
     imageBasePath: `${__dirname}/img`,
     // ... or a function that returns the correct path based on img src and outputPath.
     imageBasePath: (imageSrc, outputPath) => `${outputPath}/../img`,
+    // only process files that match a regex
+    filter: /^.*amp.*$/
   });
 };
 ```

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const ampTransformer = require('./ampTransform');
+let ampTransformer = require('./ampTransform');
 
 let key;
 let transform;
@@ -42,4 +42,16 @@ test('transforms html files', async () => {
   const content = '<h1>Hello World</h1>';
   const transformedContent = await transform(content, 'test.html');
   expect(transformedContent).toContain('<html');
+});
+
+test('only runs on files that match filter, when provided', async () => {
+
+  // should only match filenames that contain "amp"
+  ampTransformer(testConfig, {filter: /^.*amp.*$/});
+
+  const content = '<h1>Hello World</h1>';
+  const unmatchedTransformedContent = await transform(content, 'test.html');
+  const matchedTransformedContent = await transform(content, 'test.amp.html');
+  expect(unmatchedTransformedContent).toBe(content);
+  expect(matchedTransformedContent).toContain('<html');
 });
