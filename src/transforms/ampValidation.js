@@ -26,7 +26,7 @@ const ampValidationTransform = (eleventyConfig, providedOptions = {}) => {
   }
   const log = options.log || toolboxLog;
   eleventyConfig.addTransform('amp-validation', async (content, outputPath) => {
-    if (!outputPath.endsWith('.html') || !options.filter.test(outputPath)) {
+    if (!options.isAmp(outputPath)) {
       return content;
     }
     const result = await validate(content);

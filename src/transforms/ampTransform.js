@@ -22,8 +22,9 @@ const ampTransform = (eleventyConfig, providedOptions = {}) => {
   const options = processOptions(providedOptions);
 
   const ampOptimizer = createAmpOptimizer(options);
+
   eleventyConfig.addTransform('amp', async (content, outputPath) => {
-    if (!outputPath.endsWith('.html') || !options.filter.test(outputPath)) {
+    if (!options.isAmp(outputPath)) {
       return content;
     }
     const amphtml = await ampOptimizer.transformHtml(content, {

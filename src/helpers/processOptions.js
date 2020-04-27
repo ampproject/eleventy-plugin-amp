@@ -11,6 +11,8 @@ const processOptions = (providedOptions) => {
     throw new Error(`filter needs to be a valid RegExp, provided : ${options.filter}`);
   }
 
+  options.isAmp = (path) => path.endsWith('.html') && options.filter.test(path)
+
   return options;
 };
 
