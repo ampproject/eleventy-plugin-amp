@@ -16,10 +16,9 @@
 
 const toolboxLog = require('@ampproject/toolbox-core').log.tag('AMP Validation');
 const amphtmlValidator = require('amphtml-validator');
-const processOptions = require('../helpers/processOptions')
+const processOptions = require('../helpers/processOptions');
 
 const ampValidationTransform = (eleventyConfig, providedOptions = {}) => {
-
   const options = processOptions(providedOptions);
 
   if (options.validation === false) {

@@ -16,11 +16,11 @@
 
 const prettier = require('prettier');
 
-const format = string => prettier.format(string, {parser: 'babel'});
+const format = (string) => prettier.format(string, {parser: 'babel'});
 
-const expectShortcode = shortcode => {
+const expectShortcode = (shortcode) => {
   return {
-    toBe: string => expect(format(shortcode)).toBe(format(string)),
+    toBe: (string) => expect(format(shortcode)).toBe(format(string)),
   };
 };
 

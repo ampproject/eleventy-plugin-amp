@@ -16,7 +16,7 @@
 
 const CollectCss = require('./collectCss');
 const prettier = require('prettier');
-const format = string => prettier.format(string, {parser: 'html'});
+const format = (string) => prettier.format(string, {parser: 'html'});
 
 const AmpOptimizer = require('@ampproject/toolbox-optimizer');
 

@@ -79,14 +79,14 @@ const extractLayoutString = (args, defaultLayout) => {
 };
 
 // used to detect 400px or 400vh
-const isLeadingNumber = obj => {
+const isLeadingNumber = (obj) => {
   const leadingNumber = /(\d+(?:\.\d+)?)(.*)/;
   return leadingNumber.exec(obj);
 };
 
 const isLayout = (obj, layout) => obj && obj.toString().toLowerCase() === layout;
 
-const assertValidLayout = string => {
+const assertValidLayout = (string) => {
   if (AMP_LAYOUTS.has(string.toLowerCase())) {
     return string;
   }

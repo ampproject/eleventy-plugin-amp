@@ -19,7 +19,6 @@ const collectCss = require('../helpers/collectCss');
 const processOptions = require('../helpers/processOptions');
 
 const ampTransform = (eleventyConfig, providedOptions = {}) => {
-
   const options = processOptions(providedOptions);
 
   const ampOptimizer = createAmpOptimizer(options);

@@ -16,7 +16,7 @@
 
 const CleanCSS = require('clean-css');
 
-const minifyCss = code => {
+const minifyCss = (code) => {
   return new CleanCSS({}).minify(code).styles;
 };
 

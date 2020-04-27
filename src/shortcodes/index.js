@@ -16,7 +16,7 @@
 
 const {readdirSync} = require('fs');
 
-const addShortCodes = eleventyConfig => {
+const addShortCodes = (eleventyConfig) => {
   const filesInDir = readdirSync(__dirname);
 
   for (const file of filesInDir) {
@@ -29,7 +29,7 @@ const addShortCodes = eleventyConfig => {
   }
 };
 
-const isShortcodeFile = fileName => {
+const isShortcodeFile = (fileName) => {
   if (!fileName.endsWith('.js')) {
     return false;
   }

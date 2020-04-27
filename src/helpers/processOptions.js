@@ -1,17 +1,17 @@
 const processOptions = (providedOptions) => {
   const defaultOptions = {
-    filter: /.*/
-  }
+    filter: /.*/,
+  };
 
-  const options = Object.assign(defaultOptions, providedOptions)
+  const options = Object.assign(defaultOptions, providedOptions);
 
   try {
-    options.filter = new RegExp(options.filter)
+    options.filter = new RegExp(options.filter);
   } catch (e) {
-    throw new Error(`filter needs to be a valid RegExp, provided : ${options.filter}`)
+    throw new Error(`filter needs to be a valid RegExp, provided : ${options.filter}`);
   }
 
-  return options
-}
+  return options;
+};
 
-module.exports = processOptions
+module.exports = processOptions;

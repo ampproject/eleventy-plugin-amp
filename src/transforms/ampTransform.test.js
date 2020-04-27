@@ -45,7 +45,6 @@ test('transforms html files', async () => {
 });
 
 test('only runs on files that match filter, when provided', async () => {
-
   // should only match filenames that contain "amp"
   ampTransformer(testConfig, {filter: /^.*amp.*$/});
 
