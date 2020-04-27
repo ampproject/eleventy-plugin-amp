@@ -16,11 +16,15 @@
 
 const AmpOptimizer = require('@ampproject/toolbox-optimizer');
 const collectCss = require('../helpers/collectCss');
+const processOptions = require('../helpers/processOptions');
 
-const ampTransform = (eleventyConfig, options = {}) => {
+const ampTransform = (eleventyConfig, providedOptions = {}) => {
+
+  const options = processOptions(providedOptions);
+
   const ampOptimizer = createAmpOptimizer(options);
   eleventyConfig.addTransform('amp', async (content, outputPath) => {
-    if (!outputPath.endsWith('.html')) {
+    if (!outputPath.endsWith('.html') || !options.filter.test(outputPath)) {
       return content;
     }
     const amphtml = await ampOptimizer.transformHtml(content, {

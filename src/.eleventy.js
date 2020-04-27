@@ -20,7 +20,7 @@ const addAmpValidation = require('./transforms/ampValidation');
 const addShortCodes = require('./shortcodes');
 
 module.exports = {
-  configFunction: (eleventyConfig, options) => {
+  configFunction: (eleventyConfig, providedOptions) => {
     addAmpTransform(eleventyConfig, options);
     addAmpValidation(eleventyConfig, options);
     addDisableCacheTransform(eleventyConfig, options);

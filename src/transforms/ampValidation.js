@@ -16,14 +16,18 @@
 
 const toolboxLog = require('@ampproject/toolbox-core').log.tag('AMP Validation');
 const amphtmlValidator = require('amphtml-validator');
+const processOptions = require('../helpers/processOptions')
 
-const ampValidationTransform = (eleventyConfig, options = {}) => {
+const ampValidationTransform = (eleventyConfig, providedOptions = {}) => {
+
+  const options = processOptions(providedOptions);
+
   if (options.validation === false) {
     return;
   }
   const log = options.log || toolboxLog;
   eleventyConfig.addTransform('amp-validation', async (content, outputPath) => {
-    if (!outputPath.endsWith('.html')) {
+    if (!outputPath.endsWith('.html') || !options.filter.test(outputPath)) {
       return content;
     }
     const result = await validate(content);
