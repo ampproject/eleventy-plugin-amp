@@ -11,6 +11,7 @@
     "src"
   ],
   "scripts": {
+    "changelog": "lerna-changelog",
     "lint": "eslint src --ext js,jsx --quiet --fix",
     "publish": "npm publish && git push --tags",
     "test": "jest"
@@ -50,6 +51,7 @@
     "eslint-plugin-html": "6.0.2",
     "eslint-plugin-prettier": "3.1.3",
     "jest": "25.4.0",
+    "lerna-changelog": "^1.0.1",
     "prettier": "2.0.5"
   },
   "dependencies": {
