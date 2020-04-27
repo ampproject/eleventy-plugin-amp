@@ -1,4 +1,4 @@
-const processOptions = (providedOptions) => {
+const AmpConfig = (providedOptions) => {
   const defaultOptions = {
     filter: /.*/,
   };
@@ -16,4 +16,4 @@ const processOptions = (providedOptions) => {
   return options;
 };
 
-module.exports = processOptions;
+module.exports = AmpConfig;

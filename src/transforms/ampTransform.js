@@ -16,10 +16,10 @@
 
 const AmpOptimizer = require('@ampproject/toolbox-optimizer');
 const collectCss = require('../helpers/collectCss');
-const processOptions = require('../helpers/processOptions');
+const AmpConfig = require('../helpers/AmpConfig');
 
 const ampTransform = (eleventyConfig, providedOptions = {}) => {
-  const options = processOptions(providedOptions);
+  const options = AmpConfig(providedOptions);
 
   const ampOptimizer = createAmpOptimizer(options);
 

@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-const processOptions = require('./processOptions');
+const AmpConfig = require('./AmpConfig');
 
 test('returns an object with expected default properties', () => {
-  const processedOutput = processOptions({})
+  const processedOutput = AmpConfig({})
 
   expect(processedOutput.filter).toBeTruthy()
   expect(typeof processedOutput.isAmp).toBe('function')
 });
 
 test('.filter prop is a vaild RegExp', () => {
-  expect(processOptions({}).filter instanceof RegExp).toBeTruthy()
+  expect(AmpConfig({}).filter instanceof RegExp).toBeTruthy()
 });
 
 test('throws if you pass an non valid RegExp to .filter', () => {
-  expect(() => processOptions({filter: '?'})).toThrow(/filter needs to be a valid RegExp/)
+  expect(() => AmpConfig({filter: '?'})).toThrow(/filter needs to be a valid RegExp/)
 });
 
 test('provides .isAmp function to match the filter RegExp on html filenames', () => {
-  expect(processOptions({}).isAmp('foo.js')).toBeFalsy()
-  expect(processOptions({}).isAmp('foo.html')).toBeTruthy()
-  expect(processOptions({filter: '^notFoo'}).isAmp('foo.html')).toBeFalsy()
+  expect(AmpConfig({}).isAmp('foo.js')).toBeFalsy()
+  expect(AmpConfig({}).isAmp('foo.html')).toBeTruthy()
+  expect(AmpConfig({filter: '^notFoo'}).isAmp('foo.html')).toBeFalsy()
 });
