@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@ampproject/toolbox-optimizer": "2.3.1",
-    "amphtml-validator": "1.0.30",
+    "amphtml-validator": "1.0.31",
     "clean-css": "4.2.3",
     "probe-image-size": "5.0.0"
   },
