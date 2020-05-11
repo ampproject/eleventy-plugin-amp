@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-const addAmpTransform = require('./transforms/ampTransform');
-const addDisableCacheTransform = require('./transforms/ampdisableCacheTransform');
-const addAmpValidation = require('./transforms/ampValidation');
-const addShortCodes = require('./shortcodes');
+const {configFunction} = require('./.eleventy.js');
+// load the default eleventy configuration handler
+const eleventyConfig = require('@11ty/eleventy/src/EleventyConfig');
 
-module.exports = {
-  configFunction: (eleventyConfig, options) => {
-    addAmpTransform(eleventyConfig, options);
-    addAmpValidation(eleventyConfig, options);
-    addDisableCacheTransform(eleventyConfig, options);
-    addShortCodes(eleventyConfig, options);
-  },
-};
+test('has a valid configuration function', () => {
+  expect(() => configFunction(eleventyConfig)).not.toThrow();
+});
