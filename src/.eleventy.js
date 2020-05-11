@@ -15,7 +15,7 @@
  */
 
 const addAmpTransform = require('./transforms/ampTransform');
-const addDisableCacheTransform = require('./transforms/ampdisableCacheTransform');
+const addDisableCacheTransform = require('./transforms/ampDisableCacheTransform');
 const addAmpValidation = require('./transforms/ampValidation');
 const addShortCodes = require('./shortcodes');
 
