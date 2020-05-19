@@ -2,7 +2,6 @@ const ImageOptimizer = require('./ImageOptimizer');
 
 const AmpConfig = (providedOptions) => {
   const defaultOptions = {
-    verbose: true,
     filter: /.*/,
     optimizeImages: true,
   };
