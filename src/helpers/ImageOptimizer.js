@@ -18,7 +18,6 @@ const path = require('path');
 const Image = require('@11ty/eleventy-img');
 
 const SUPPORTED_FORMATS = new Set(['heic', 'heif', 'jpeg', 'jpg', 'png', 'raw', 'tiff', 'webp']);
-const DEFAULT_IMG_FORMAT = 'jpeg';
 
 /**
  * See https://github.com/11ty/eleventy-img#options-list for supported options.
@@ -35,6 +34,10 @@ const createImageOptimizer = (globalOpts) => {
    */
   return async (src, width) => {
     const format = extractImageFormat(src);
+    if (!format) {
+      // Don't convert images with unknown format
+      return null;
+    }
     try {
       // Resizes, compresses the image (and download if needed).
       const opts = Object.assign({}, globalOpts, {
@@ -62,15 +65,15 @@ function extractImageFormat(src) {
     srcPath = new URL(src, 'https://example.com').pathname;
   } catch (e) {
     console.error('Image src is not a valid URL', src);
-    return DEFAULT_IMG_FORMAT;
+    return null;
   }
   let fileExtension = path.extname(srcPath);
   if (!fileExtension) {
-    return DEFAULT_IMG_FORMAT;
+    return null;
   }
   fileExtension = fileExtension.substring(1).toLowerCase();
   if (!SUPPORTED_FORMATS.has(fileExtension)) {
-    return DEFAULT_IMG_FORMAT;
+    return null;
   }
   return fileExtension;
 }
