@@ -17,6 +17,7 @@
 const path = require('path');
 const Image = require('@11ty/eleventy-img');
 
+const SUPPORTED_FORMATS = new Set(['heic', 'heif', 'jpeg', 'jpg', 'png', 'raw', 'tiff', 'webp']);
 const DEFAULT_IMG_FORMAT = 'jpeg';
 
 /**
@@ -55,11 +56,23 @@ const createImageOptimizer = (globalOpts) => {
 };
 
 function extractImageFormat(src) {
-  const fileExtension = path.extname(src);
-  if (fileExtension) {
-    return fileExtension.substring(1);
+  let srcPath;
+  try {
+    // remove potential query parameters
+    srcPath = new URL(src, 'https://example.com').pathname;
+  } catch (e) {
+    console.error('Image src is not a valid URL', src);
+    return DEFAULT_IMG_FORMAT;
   }
-  return DEFAULT_IMG_FORMAT;
+  let fileExtension = path.extname(srcPath);
+  if (!fileExtension) {
+    return DEFAULT_IMG_FORMAT;
+  }
+  fileExtension = fileExtension.substring(1).toLowerCase();
+  if (!SUPPORTED_FORMATS.has(fileExtension)) {
+    return DEFAULT_IMG_FORMAT;
+  }
+  return fileExtension;
 }
 
 function isAbsoluteUrl(url) {
