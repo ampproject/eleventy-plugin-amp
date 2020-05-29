@@ -16,7 +16,9 @@ const AmpConfig = (providedOptions) => {
 
   options.isAmp = (path) => path.endsWith('.html') && options.filter.test(path);
 
-  options.imageOptimizer = ImageOptimizer.create(options);
+  if (providedOptions.optimizeImages !== false) {
+    options.imageOptimizer = ImageOptimizer.create(options);
+  }
 
   return options;
 };
