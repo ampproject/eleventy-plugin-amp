@@ -170,6 +170,12 @@ A good idea is to use this approach to modularize your CSS to ensure that your p
 
 **Tip:** Modularizing CSS helps to stay within AMP’s 75kb CSS limit. The AMP plugin will automatically perform minification.
 
+### Image Optimization
+
+By default, the plugin will automatically optimize images and generate a `srcset` including different sized versions of your images.  The plugin useses [AMP Optimizer's built-in srcset generation](https://github.com/ampproject/amp-toolbox/tree/master/packages/optimizer#image-optimization) and [eleventy-img](https://github.com/11ty/eleventy-img) for image resizing.
+
+To disable, pass `optimizeImages: false` via the options.
+
 ### Options
 
 Optionally pass in an options object as the second argument to `addPlugin` to further customize this plugin.
@@ -182,13 +188,15 @@ module.exports = function(eleventyConfig) {
     validation: false,
     // Disable AMP Cache (enabled by default) 
     ampCache: false,
+    // Disable image optimization (enabled by default)
+    imageOptimization: false,
     // Disable CSS minification (enabled by default)
     minifyCss: false,
     // For customizing the location of images assets, pass either a directory 
     imageBasePath: `${__dirname}/img`,
     // ... or a function that returns the correct path based on img src and outputPath.
     imageBasePath: (imageSrc, outputPath) => `${outputPath}/../img`,
-    // only process files that match a regex
+    // Only process files that match a regex
     filter: /^.*amp.*$/
   });
 };
@@ -200,7 +208,6 @@ Run tests via:
 
 ```
 $ npm test
-
 ```
 
 ### Adding new Shortcodes

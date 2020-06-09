@@ -1,6 +1,9 @@
+const ImageOptimizer = require('./ImageOptimizer');
+
 const AmpConfig = (providedOptions) => {
   const defaultOptions = {
     filter: /.*/,
+    optimizeImages: true,
   };
 
   const options = Object.assign(defaultOptions, providedOptions);
@@ -11,7 +14,11 @@ const AmpConfig = (providedOptions) => {
     throw new Error(`filter needs to be a valid RegExp, provided : ${options.filter}`);
   }
 
-  options.isAmp = (path) => path.endsWith('.html') && options.filter.test(path)
+  options.isAmp = (path) => path.endsWith('.html') && options.filter.test(path);
+
+  if (providedOptions.optimizeImages !== false) {
+    options.imageOptimizer = ImageOptimizer.create(options);
+  }
 
   return options;
 };
