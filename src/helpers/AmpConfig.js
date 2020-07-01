@@ -4,6 +4,9 @@ const AmpConfig = (providedOptions) => {
   const defaultOptions = {
     filter: /.*/,
     optimizeImages: true,
+    dir: {
+      output: '_site',
+    },
   };
 
   const options = Object.assign(defaultOptions, providedOptions);
@@ -16,7 +19,7 @@ const AmpConfig = (providedOptions) => {
 
   options.isAmp = (path) => path.endsWith('.html') && options.filter.test(path);
 
-  if (providedOptions.optimizeImages !== false) {
+  if (providedOptions.optimizeImages !== false && !providedOptions.imageOptimizer) {
     options.imageOptimizer = ImageOptimizer.create(options);
   }
 

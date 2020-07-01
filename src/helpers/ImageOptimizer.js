@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
+const log = require('@ampproject/toolbox-core').log.tag('AMP Img Optimization');
 const path = require('path');
 const Image = require('@11ty/eleventy-img');
 
 const SUPPORTED_FORMATS = new Set(['heic', 'heif', 'jpeg', 'jpg', 'png', 'raw', 'tiff', 'webp']);
+const DEFAULT_FORMAT = 'jpeg';
+
+const WORKING_DIR = path.resolve('.');
+const DEFAULT_OUTPUT_DIR = '_site';
+const DEFAULT_URL_PATH = '/img/';
 
 /**
  * See https://github.com/11ty/eleventy-img#options-list for supported options.
@@ -25,6 +31,10 @@ const SUPPORTED_FORMATS = new Set(['heic', 'heif', 'jpeg', 'jpg', 'png', 'raw', 
  * @param {Object} opts - options for eleventy-img
  */
 const createImageOptimizer = (globalOpts) => {
+  if (!globalOpts.imageOptimization) {
+    // don't optimize images
+    return;
+  }
   /**
    * Resizes the image specified at the given src URL to the given width. Images
    * specified via an absolute URL will be downloaded and cached locally.
@@ -34,24 +44,24 @@ const createImageOptimizer = (globalOpts) => {
    */
   return async (src, width) => {
     const format = extractImageFormat(src);
-    if (!format) {
-      // Don't convert images with unknown format
-      return null;
-    }
     try {
-      // Resizes, compresses the image (and download if needed).
+      // Resize and compress the image (and download if needed).
       const opts = Object.assign({}, globalOpts, {
-        formats: [format, ...(globalOpts.formats || [])],
+        outputDir: globalOpts.imageOptimization.outputDir || DEFAULT_OUTPUT_DIR,
+        urlPath: globalOpts.imageOptimization.urlPath || DEFAULT_URL_PATH,
+        cacheDuration: globalOpts.imageOptimization.cacheDuration,
+        formats: Array.from(new Set([format, ...(globalOpts.formats || [])])),
         widths: [width],
       });
       if (!isAbsoluteUrl(src)) {
-        // Not sure if using the process root is the correct approach
-        src = path.join(process.cwd(), src);
+        src = path.join(WORKING_DIR, src);
       }
+      opts.outputDir = path.join(opts.outputDir, opts.urlPath);
       const stats = await Image(src, opts);
-      return stats[format][0].url;
+      const srcForWidth = stats[format][0].url;
+      return srcForWidth;
     } catch (e) {
-      console.log(`Could not optimize image (${src}, ${width}w):`, e);
+      log.warn(`Could not optimize image (${src}, ${width}w):`, e);
       // Don't generate a srcset entry for this image / width.
       return null;
     }
@@ -64,16 +74,16 @@ function extractImageFormat(src) {
     // remove potential query parameters
     srcPath = new URL(src, 'https://example.com').pathname;
   } catch (e) {
-    console.error('Image src is not a valid URL', src);
-    return null;
+    log.error('Image src is not a valid URL', src);
+    return DEFAULT_FORMAT;
   }
   let fileExtension = path.extname(srcPath);
   if (!fileExtension) {
-    return null;
+    return DEFAULT_FORMAT;
   }
   fileExtension = fileExtension.substring(1).toLowerCase();
   if (!SUPPORTED_FORMATS.has(fileExtension)) {
-    return null;
+    return DEFAULT_FORMAT;
   }
   return fileExtension;
 }
