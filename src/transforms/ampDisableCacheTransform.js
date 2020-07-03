@@ -41,6 +41,9 @@ const ampDisableCacheTransform = async (eleventyConfig, options = {}) => {
       this.log = config.log;
     }
     async transform(root, params) {
+      if (!options.isAmp(outputPath)) {
+        return content;
+      }
       const outputDir = options.ampRuntimeDir || '_site';
       const html = firstChildByTag(root, 'html');
       const head = firstChildByTag(html, 'head');
