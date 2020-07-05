@@ -45,8 +45,14 @@ const createImageOptimizer = (globalOpts) => {
         widths: [width],
       });
       if (!isAbsoluteUrl(src)) {
-        // Not sure if using the process root is the correct approach
-        src = path.join(process.cwd(), src);
+        if (typeof globalOpts.imageBasePath == 'function') {
+          src = globalOpts.imageBasePath(src);
+        } else if (typeof globalOpts.imageBasePath == 'string') {
+          src = `${globalOpts.imageBasePath}/${src}`;
+        } else {
+          // Not sure if using the process root is the correct approach
+          src = path.join(process.cwd(), src);
+        }
       }
       const stats = await Image(src, opts);
       return stats[format][0].url;
