@@ -75,7 +75,7 @@ function resolveImageOnFileSystem(globalOpts, src) {
   if (typeof globalOpts.imageBasePath == 'string') {
     return path.join(globalOpts.imageBasePath, src);
   }
-  src = path.join(WORKING_DIR, src);
+  return path.join(WORKING_DIR, src);
 }
 
 function extractImageFormat(src) {
