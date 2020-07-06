@@ -54,7 +54,7 @@ const createImageOptimizer = (globalOpts) => {
         widths: [width],
       });
       if (!isAbsoluteUrl(src)) {
-        src = path.join(WORKING_DIR, src);
+        src = resolveImageOnFileSystem(globalOpts, src);
       }
       opts.outputDir = path.join(opts.outputDir, opts.urlPath);
       const stats = await Image(src, opts);
@@ -67,6 +67,16 @@ const createImageOptimizer = (globalOpts) => {
     }
   };
 };
+
+function resolveImageOnFileSystem(globalOpts, src) {
+  if (typeof globalOpts.imageBasePath == 'function') {
+    return globalOpts.imageBasePath(src);
+  }
+  if (typeof globalOpts.imageBasePath == 'string') {
+    return path.join(globalOpts.imageBasePath, src);
+  }
+  src = path.join(WORKING_DIR, src);
+}
 
 function extractImageFormat(src) {
   let srcPath;
