@@ -41,9 +41,6 @@ const ampDisableCacheTransform = async (eleventyConfig, options = {}) => {
       this.log = config.log;
     }
     async transform(root, params) {
-      if (!options.isAmp(outputPath)) {
-        return content;
-      }
       const outputDir = options.ampRuntimeDir || '_site';
       const html = firstChildByTag(root, 'html');
       const head = firstChildByTag(html, 'head');
@@ -92,7 +89,7 @@ const ampDisableCacheTransform = async (eleventyConfig, options = {}) => {
     transformations: [DownloadRuntime, 'RemoveAmpAttribute', 'RewriteAmpUrls'],
   });
   eleventyConfig.addTransform('amp-disable-cache', async (content, outputPath) => {
-    if (!outputPath.endsWith('.html')) {
+    if (!options.isAmp(outputPath)) {
       return content;
     }
     const amphtml = await ampOptimizer.transformHtml(content, {

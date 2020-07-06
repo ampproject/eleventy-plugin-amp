@@ -36,14 +36,14 @@ test('disabled by default', async () => {
 });
 
 test('removes the `amp` attribute', async () => {
-  ampDisableCacheTransform(testConfig, {ampCache: false});
+  ampDisableCacheTransform(testConfig, {ampCache: false, isAmp: () => true});
   const content = '<html amp><head></head></html>';
   const transformedContent = await transform(content, 'test.html');
   expect(transformedContent).toEqual('<html><head></head></html>');
 });
 
 test('removes the `⚡` attribute', async () => {
-  ampDisableCacheTransform(testConfig, {ampCache: false});
+  ampDisableCacheTransform(testConfig, {ampCache: false, isAmp: () => true});
   const content = '<html ⚡><head></head></html>';
   const transformedContent = await transform(content, 'test.html');
   expect(transformedContent).toEqual('<html><head></head></html>');
