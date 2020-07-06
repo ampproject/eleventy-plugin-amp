@@ -15,13 +15,16 @@
  */
 
 const ampDisableCacheTransform = require('./ampDisableCacheTransform');
+const AmpConfig = require('../helpers/AmpConfig');
 
+let options;
 let key;
 let transform;
 
 let testConfig;
 
 beforeEach(() => {
+  options = AmpConfig({});
   testConfig = {
     addTransform: (k, t) => {
       key = k;
@@ -31,19 +34,21 @@ beforeEach(() => {
 });
 
 test('disabled by default', async () => {
-  ampDisableCacheTransform(testConfig);
+  ampDisableCacheTransform(testConfig, options);
   expect(transform).toBe(undefined);
 });
 
 test('removes the `amp` attribute', async () => {
-  ampDisableCacheTransform(testConfig, {ampCache: false, isAmp: () => true});
+  options.ampCache = false;
+  ampDisableCacheTransform(testConfig, options);
   const content = '<html amp><head></head></html>';
   const transformedContent = await transform(content, 'test.html');
   expect(transformedContent).toEqual('<html><head></head></html>');
 });
 
 test('removes the `⚡` attribute', async () => {
-  ampDisableCacheTransform(testConfig, {ampCache: false, isAmp: () => true});
+  options.ampCache = false;
+  ampDisableCacheTransform(testConfig, options);
   const content = '<html ⚡><head></head></html>';
   const transformedContent = await transform(content, 'test.html');
   expect(transformedContent).toEqual('<html><head></head></html>');
