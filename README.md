@@ -16,7 +16,7 @@ Edit your Eleventy config file (probably `.eleventy.js`) and use [`addPlugin`](h
 
 ```js
 const ampPlugin = require('@ampproject/eleventy-plugin-amp');
-module.exports = function(eleventyConfig) {
+module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(ampPlugin);
 };
 ```
@@ -41,7 +41,11 @@ There's no need to explicitly import the `amp-carousel` extension script as it w
 <head>
   ...
   <!-- this will be added automatically -->
-  <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+  <script
+    async
+    custom-element="amp-analytics"
+    src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
+  ></script>
   ...
 </head>
 <body>
@@ -63,7 +67,50 @@ Markdown images are automatically converted to `amp-img`:
 ![image](https://unsplash.it/500/400)
 ```
 
-The AMP Plugin needs to be able to determine the image dimensions from the image file. See [Options](#Options) for how to resolve local image files. 
+The AMP Plugin needs to be able to determine the image dimensions from the image file. Use the `imageBasePath` option to customize how to resolve local image files:
+
+```js
+const ampPlugin = require('@ampproject/eleventy-plugin-amp');
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addPlugin(ampPlugin, {
+    // For customizing the location of images assets, pass either a directory
+    imageBasePath: `${__dirname}/img`,
+    // ... or a function that returns the correct path based on img src and outputPath.
+    imageBasePath: (imageSrc, outputPath) => `${outputPath}/../img`,
+  });
+};
+```
+
+### Image Optimization
+
+The plugin offers automated image optimization and `srcset` generation. The plugin uses [AMP Optimizer's built-in srcset generation](https://github.com/ampproject/amp-toolbox/tree/master/packages/optimizer#image-optimization) and [eleventy-img](https://github.com/11ty/eleventy-img) for image resizing.
+
+To enable, pass the following options:
+
+```js
+const ampPlugin = require('@ampproject/eleventy-plugin-amp');
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addPlugin(ampPlugin, {
+    // Enable image optimization using the default output dir (`_site`) and image folder (`img`).
+    imageOptimization: true,
+  })
+```
+
+You can customize the image generation via:
+
+```js
+const ampPlugin = require('@ampproject/eleventy-plugin-amp');
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addPlugin(ampPlugin, {
+    // Enable image optimization
+    imageOptimization: {
+      // The target dir as configured in `dir.output`, the default is '_site'
+      outputDir: opts.dir.output,
+      // The path optimized images should be served from, the default is '/img/'
+      urlPath: '/images/',
+    }
+  })
+```
 
 ### Shortcodes
 
@@ -77,19 +124,19 @@ Shortcodes support all [AMP layouts](https://amp.dev/documentation/guides-and-tu
 
 Here are a few examples:
 
-* `fixed` layout with `width=300` and `height=200`:
+- `fixed` layout with `width=300` and `height=200`:
   ```
   {% video 'video.mp4' 300 200 %}
   ```
-* `responsive` layout with `width=300` and `height=200`:
+- `responsive` layout with `width=300` and `height=200`:
   ```
   {% video 'video.mp4' 'responsive' 300 200 %}
   ```
-* `fixed-height` layout with `height=200`:
+- `fixed-height` layout with `height=200`:
   ```
   {% video 'video.mp4' 200 %}
   ```
-* `fill` layout:
+- `fill` layout:
   ```
   {% video 'video.mp4' 'fill' %}
   ```
@@ -170,34 +217,35 @@ A good idea is to use this approach to modularize your CSS to ensure that your p
 
 **Tip:** Modularizing CSS helps to stay within AMP’s 75kb CSS limit. The AMP plugin will automatically perform minification.
 
-### Image Optimization
-
-By default, the plugin will automatically optimize images and generate a `srcset` including different sized versions of your images.  The plugin useses [AMP Optimizer's built-in srcset generation](https://github.com/ampproject/amp-toolbox/tree/master/packages/optimizer#image-optimization) and [eleventy-img](https://github.com/11ty/eleventy-img) for image resizing.
-
-To disable, pass `optimizeImages: false` via the options.
-
 ### Options
 
 Optionally pass in an options object as the second argument to `addPlugin` to further customize this plugin.
 
 ```js
 const ampPlugin = require('@ampproject/eleventy-plugin-amp');
-module.exports = function(eleventyConfig) {
+module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(ampPlugin, {
-    // Disable AMP validation (enabled by default)
-    validation: false,
-    // Disable AMP Cache (enabled by default) 
+    // Disable AMP Cache (enabled by default)
     ampCache: false,
-    // Disable image optimization (enabled by default)
-    imageOptimization: false,
-    // Disable CSS minification (enabled by default)
-    minifyCss: false,
-    // For customizing the location of images assets, pass either a directory 
+    // Only process files that match a regex
+    filter: /^.*amp.*$/,
+    // Image support in Markdown files might require customizing the location of images assets, pass either a directory
     imageBasePath: `${__dirname}/img`,
     // ... or a function that returns the correct path based on img src and outputPath.
     imageBasePath: (imageSrc, outputPath) => `${outputPath}/../img`,
-    // Only process files that match a regex
-    filter: /^.*amp.*$/
+    // Enable image optimization (disabled by default). The default output dir is `_site` and the default image path is `/img/`. Otherwise ...
+    imageOptimization: true,
+    // ... customize output dir and image path.
+    imageOptimization: {
+      // The target dir as configured in `dir.output`.
+      outputDir: opts.dir.output,
+      // The path optimized images should be served from.
+      urlPath: '/images/',
+    }
+    // Disable CSS minification (enabled by default)
+    minifyCss: false,
+    // Disable AMP validation (enabled by default)
+    validation: false,
   });
 };
 ```

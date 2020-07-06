@@ -7,9 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/ampproject/eleventy-plugin-amp.git"
   },
-  "files": [
-    "src"
-  ],
+  "files": ["src"],
   "scripts": {
     "changelog": "lerna-changelog",
     "lint": "eslint src --ext js,jsx --quiet --fix",

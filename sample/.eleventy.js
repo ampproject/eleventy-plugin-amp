@@ -16,18 +16,29 @@
 
 const amp = require('../src/.eleventy.js');
 
-module.exports = function(eleventyConfig) {
+module.exports = function (eleventyConfig) {
+  const opts = {
+    dir: {
+      output: 'dist',
+    },
+  };
+
   // Enable AMP tags in markdown
-  let markdownIt = require("markdown-it");
+  let markdownIt = require('markdown-it');
   let options = {
     html: true,
     breaks: true,
-    linkify: true
+    linkify: true,
   };
-  eleventyConfig.setLibrary("md", markdownIt(options));
+  eleventyConfig.setLibrary('md', markdownIt(options));
+  eleventyConfig.addPassthroughCopy('img');
 
   // Add AMP support
   eleventyConfig.addPlugin(amp, {
-    // ...
+    imageOptimization: {
+      outputDir: opts.dir.output,
+      urlPath: '/img/',
+    },
   });
+  return opts;
 };
