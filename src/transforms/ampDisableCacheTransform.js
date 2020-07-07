@@ -28,7 +28,9 @@ const {hasAttribute, firstChildByTag} = require('@ampproject/toolbox-optimizer/l
  * Note: amp-geo won't work in this mode as it's an AMP Cache feature.
  * See https://github.com/ampproject/amphtml/blob/master/spec/amp-framework-hosting.md#amp-geo-fallback-api
  */
-const ampDisableCacheTransform = async (eleventyConfig, options) => {
+const ampDisableCacheTransform = async (eleventyConfig, providedOptions = {}) => {
+  const options = AmpConfig(providedOptions);
+
   if (options.ampCache !== false) {
     return;
   }
