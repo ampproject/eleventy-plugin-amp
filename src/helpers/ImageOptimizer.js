@@ -56,7 +56,6 @@ const createImageOptimizer = (globalOpts) => {
       if (!isAbsoluteUrl(src)) {
         src = resolveImageOnFileSystem(globalOpts, src);
       }
-      opts.outputDir = path.join(opts.outputDir, opts.urlPath);
       const stats = await Image(src, opts);
       const srcForWidth = stats[format][0].url;
       return srcForWidth;
