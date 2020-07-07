@@ -1,0 +1,18 @@
+<html>
+<head>
+<style>
+  {% include "layouts/default.css" %}
+</style>
+</head>
+<body>
+  <header>
+    <div class="title">My blog</div>
+  </header>
+  <main>
+  Components!
+  {% set greeting = 'hello world' %}
+  {% include "components/greeter.njk" %}
+  {{content | safe }}
+  </main>
+</body>
+</html>

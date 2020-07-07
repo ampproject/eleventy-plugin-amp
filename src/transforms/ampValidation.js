@@ -29,14 +29,18 @@ const ampValidationTransform = (eleventyConfig, providedOptions = {}) => {
     if (!options.isAmp(outputPath)) {
       return content;
     }
-    const result = await validate(content);
-    if (result.status === 'PASS') {
-      log.success(`${outputPath} [${result.status}]`);
-    } else {
-      log.error(`${outputPath} [${result.status}]`);
-    }
-    for (const error of result.errors) {
-      log.info(createErrorMessage(error, outputPath));
+    try {
+      const result = await validate(content);
+      if (result.status === 'PASS') {
+        log.success(`${outputPath} [${result.status}]`);
+      } else {
+        log.error(`${outputPath} [${result.status}]`);
+      }
+      for (const error of result.errors) {
+        log.info(createErrorMessage(error, outputPath));
+      }
+    } catch (e) {
+      toolboxLog.warn('Skipping AMP validation, reason: ', e.message);
     }
     return content;
   });
