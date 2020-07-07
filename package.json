@@ -1,6 +1,6 @@
 {
   "name": "@ampproject/eleventy-plugin-amp",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "AMP support for Eleventy.",
   "main": "src/.eleventy.js",
   "repository": {
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "0.7.0",
-    "@ampproject/toolbox-runtime-fetch": "2.5.4",
+    "@ampproject/toolbox-runtime-fetch": "^2.5.4",
     "eslint": "7.4.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-html": "6.0.2",
