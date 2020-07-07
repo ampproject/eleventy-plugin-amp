@@ -15,6 +15,7 @@
  */
 const AmpOptimizer = require('@ampproject/toolbox-optimizer');
 const fetchRuntime = require('@ampproject/toolbox-runtime-fetch');
+const AmpConfig = require('../helpers/AmpConfig');
 const fs = require('fs');
 const path = require('path');
 const {hasAttribute, firstChildByTag} = require('@ampproject/toolbox-optimizer/lib/NodeUtils');
