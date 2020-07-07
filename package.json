@@ -13,7 +13,7 @@
   "scripts": {
     "changelog": "lerna-changelog",
     "lint": "eslint src --ext js,jsx --quiet --fix",
-    "publish": "npm publish && git push --tags",
+    "publish": "git push --tags",
     "test": "jest"
   },
   "keywords": [
