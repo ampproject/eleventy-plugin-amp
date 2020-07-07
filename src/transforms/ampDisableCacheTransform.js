@@ -31,6 +31,7 @@ const {hasAttribute, firstChildByTag} = require('@ampproject/toolbox-optimizer/l
  */
 const ampDisableCacheTransform = async (eleventyConfig, providedOptions = {}) => {
   const options = AmpConfig(providedOptions);
+  const availableRuntimes = new Set();
 
   if (options.ampCache !== false) {
     return;
@@ -77,14 +78,23 @@ const ampDisableCacheTransform = async (eleventyConfig, providedOptions = {}) =>
     }
 
     async downloadRuntime(ampRuntimeVersion, ouputDir, runtimeDir) {
-      const targetDir = path.join(ouputDir, runtimeDir);
-      if (fs.existsSync(targetDir)) {
+      if (availableRuntimes.has(ampRuntimeVersion)) {
         return true;
       }
-      this.log.info('Downloading AMP runtime version', ampRuntimeVersion);
-      return fetchRuntime.getRuntime({
+      const targetDir = path.join(ouputDir, runtimeDir);
+      if (fs.existsSync(targetDir)) {
+        availableRuntimes.add(ampRuntimeVersion);
+        return true;
+      }
+      // Create dir to avoid triggering multiple downloads
+      fs.mkdirSync(targetDir, {recursive: true});
+      const status = fetchRuntime.getRuntime({
         dest: ouputDir,
       }).status;
+      if (status) {
+        availableRuntimes.add(ampRuntimeVersion);
+      }
+      return status;
     }
   }
 
