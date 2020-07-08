@@ -104,11 +104,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(ampPlugin, {
     // Enable image optimization
     imageOptimization: {
-      // The target dir as configured in `dir.output`, the default is '_site'
-      outputDir: opts.dir.output,
       // The path optimized images should be served from, the default is '/img/'
       urlPath: '/images/',
     }
+    // The target dir as configured in `dir.output`, the default is '_site'
+    outputDir: opts.dir.output,
   })
 ```
 
@@ -225,26 +225,35 @@ Optionally pass in an options object as the second argument to `addPlugin` to fu
 const ampPlugin = require('@ampproject/eleventy-plugin-amp');
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(ampPlugin, {
-    // Disable AMP Cache (enabled by default)
+    // Disable AMP Cache (enabled by default) and self-host the AMP runtime.
     ampCache: false,
-    // Only process files that match a regex
+    // The optional target dir as configured in `dir.output`. Required for image optimization
+    // and AMP runtime self-hosting. Defaults to `_site`.
+    // See https://www.11ty.dev/docs/config/#output-directory
+    dir: {
+      output: 'dist',
+    }
+    // Only process files that match a regex.
     filter: /^.*amp.*$/,
-    // Image support in Markdown files might require customizing the location of images assets, pass either a directory
+    // The host where the site is being served from, required for self-hosting the AMP runtime.
+    host: 'https://example.com',
+    // Image support in Markdown files might require customizing the location of images assets, pass either a directory.
     imageBasePath: `${__dirname}/img`,
     // ... or a function that returns the correct path based on img src and outputPath.
     imageBasePath: (imageSrc, outputPath) => `${outputPath}/../img`,
-    // Enable image optimization (disabled by default). The default output dir is `_site` and the default image path is `/img/`. Otherwise ...
+    // Enable image optimization (disabled by default). The default output dir is `_site`
+    // and the default image path is `/img/`. Otherwise ...
     imageOptimization: true,
     // ... customize output dir and image path.
     imageOptimization: {
-      // The target dir as configured in `dir.output`.
-      outputDir: opts.dir.output,
       // The path optimized images should be served from.
       urlPath: '/images/',
     }
-    // Disable CSS minification (enabled by default)
+    // Disable CSS minification (enabled by default).
     minifyCss: false,
-    // Disable AMP validation (enabled by default)
+    // If your site lives in a different subdirectory, use pathPrefix to specify this. Required when self-hosting the AMP runtime. See https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix
+    pathPrefix: 'test',
+    // Disable AMP validation (enabled by default).
     validation: false,
   });
 };

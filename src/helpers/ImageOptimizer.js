@@ -17,12 +17,11 @@
 const log = require('@ampproject/toolbox-core').log.tag('AMP Img Optimization');
 const path = require('path');
 const Image = require('@11ty/eleventy-img');
+const AmpConfig = require('./AmpConfig');
 
 const SUPPORTED_FORMATS = new Set(['heic', 'heif', 'jpeg', 'jpg', 'png', 'raw', 'tiff', 'webp']);
 const DEFAULT_FORMAT = 'jpeg';
 
-const WORKING_DIR = path.resolve('.');
-const DEFAULT_OUTPUT_DIR = '_site';
 const DEFAULT_URL_PATH = '/img/';
 
 /**
@@ -30,8 +29,8 @@ const DEFAULT_URL_PATH = '/img/';
  *
  * @param {Object} opts - options for eleventy-img
  */
-const createImageOptimizer = (globalOpts) => {
-  if (!globalOpts.imageOptimization) {
+const createImageOptimizer = (config = {}) => {
+  if (!config.imageOptimization) {
     // don't optimize images
     return;
   }
@@ -46,17 +45,16 @@ const createImageOptimizer = (globalOpts) => {
     const format = extractImageFormat(src);
     try {
       // Resize and compress the image (and download if needed).
-      const opts = Object.assign({}, globalOpts, {
-        outputDir: globalOpts.imageOptimization.outputDir || DEFAULT_OUTPUT_DIR,
-        urlPath: globalOpts.imageOptimization.urlPath || DEFAULT_URL_PATH,
-        cacheDuration: globalOpts.imageOptimization.cacheDuration,
-        formats: Array.from(new Set([format, ...(globalOpts.formats || [])])),
+      const opts = Object.assign({}, config, {
+        urlPath: config.imageOptimization.urlPath || DEFAULT_URL_PATH,
+        cacheOptions: config.imageOptimization.cacheOptions,
+        formats: Array.from(new Set([format, ...(config.imageOptimization.formats || [])])),
         widths: [width],
       });
+      opts.outputDir = path.join(config.dir.output, opts.urlPath);
       if (!isAbsoluteUrl(src)) {
-        src = resolveImageOnFileSystem(globalOpts, src);
+        src = resolveImageOnFileSystem(config, src);
       }
-      opts.outputDir = path.join(opts.outputDir, opts.urlPath);
       const stats = await Image(src, opts);
       const srcForWidth = stats[format][0].url;
       return srcForWidth;
@@ -68,14 +66,14 @@ const createImageOptimizer = (globalOpts) => {
   };
 };
 
-function resolveImageOnFileSystem(globalOpts, src) {
-  if (typeof globalOpts.imageBasePath == 'function') {
-    return globalOpts.imageBasePath(src);
+function resolveImageOnFileSystem(config, src) {
+  if (typeof config.imageBasePath == 'function') {
+    return config.imageBasePath(src);
   }
-  if (typeof globalOpts.imageBasePath == 'string') {
-    return path.join(globalOpts.imageBasePath, src);
+  if (typeof config.imageBasePath == 'string') {
+    return path.join(config.imageBasePath, src);
   }
-  return path.join(WORKING_DIR, src);
+  return path.join(config.workingDir, src);
 }
 
 function extractImageFormat(src) {
