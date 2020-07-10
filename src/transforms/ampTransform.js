@@ -14,36 +14,59 @@
  * limitations under the License.
  */
 
+const path = require('path');
+const fs = require('fs');
 const AmpOptimizer = require('@ampproject/toolbox-optimizer');
-const collectCss = require('../helpers/collectCss');
+const log = require('@ampproject/toolbox-core').log.tag('Runtime Download');
 const AmpConfig = require('../helpers/AmpConfig');
+const fetchRuntimeParams = require('@ampproject/toolbox-optimizer/lib/fetchRuntimeParameters');
+
+const fetchRuntime = require('@ampproject/toolbox-runtime-fetch');
 
 const ampTransform = (eleventyConfig, providedOptions = {}) => {
   const options = AmpConfig(providedOptions);
-
-  const ampOptimizer = createAmpOptimizer(options);
+  const ampOptimizer = AmpOptimizer.create(options);
+  const optimizerParamsPromise = maybeDownloadAmpRuntime(ampOptimizer.config);
 
   eleventyConfig.addTransform('amp', async (content, outputPath) => {
     if (!options.isAmp(outputPath)) {
       return content;
     }
-    const amphtml = await ampOptimizer.transformHtml(content, {
-      outputPath,
-    });
-    return amphtml;
+    return ampOptimizer.transformHtml(content, await optimizerParamsPromise);
   });
 };
 
-function createAmpOptimizer(options) {
-  // support the markdown image syntax
-  options.markdown = true;
-  // add CSS collector
-  options.transformations = [
-    collectCss,
-    // allow custom transformations via options
-    ...(options.transformations || AmpOptimizer.TRANSFORMATIONS_AMP_FIRST),
-  ];
-  return AmpOptimizer.create(options);
+async function maybeDownloadAmpRuntime(optimizerConfig) {
+  if (!optimizerConfig.downloadAmpRuntime) {
+    return {};
+  }
+  if (!optimizerConfig.ampRuntimeHost) {
+    log.error('downloadAmpRuntime options requires ampRuntimeHost to be configured as well.');
+    return {};
+  }
+  const runtimeParams = await fetchRuntimeParams(optimizerConfig);
+  const ampRuntimePath = path.join('/rtv', runtimeParams.ampRuntimeVersion);
+  runtimeParams.ampUrlPrefix = createAmpUrlPrefix(optimizerConfig, ampRuntimePath);
+  downloadRuntime(runtimeParams.ampRuntimeVersion, optimizerConfig.dir.output, ampRuntimePath);
+  return runtimeParams;
 }
 
+function createAmpUrlPrefix(optimizerConfig, ampRuntimePath) {
+  return new URL(
+    path.join(optimizerConfig.pathPrefix, ampRuntimePath),
+    optimizerConfig.ampRuntimeHost
+  ).toString();
+}
+
+async function downloadRuntime(ampRuntimeVersion, ouputDir, ampUrlPrefix) {
+  const targetDir = path.join(ouputDir, ampUrlPrefix);
+  if (fs.existsSync(targetDir)) {
+    // runtime already downloaded
+    return;
+  }
+  fetchRuntime.getRuntime({
+    rtv: ampRuntimeVersion,
+    dest: ouputDir,
+  });
+}
 module.exports = ampTransform;
