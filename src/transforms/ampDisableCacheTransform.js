@@ -43,9 +43,16 @@ const ampDisableCacheTransform = async (eleventyConfig, providedOptions = {}) =>
   class DownloadRuntime {
     constructor(config) {
       this.log = config.log;
+      if (!options.host) {
+        this.log.warn('Cannot self-host the AMP runtime as `host` option is not specified.');
+      }
     }
     async transform(root, params) {
-      const outputDir = options.ampRuntimeDir || '_site';
+      if (!options.host) {
+        // host needs to be specified to be able to self-host the AMP runtime
+        return;
+      }
+      const outputDir = options.dir.output;
       const html = firstChildByTag(root, 'html');
       const head = firstChildByTag(html, 'head');
       for (const node of head.children) {
@@ -60,7 +67,7 @@ const ampDisableCacheTransform = async (eleventyConfig, providedOptions = {}) =>
           continue;
         }
 
-        const ampUrlPrefix = path.join('rtv', ampRuntimeVersion);
+        const ampUrlPrefix = path.join('/rtv', ampRuntimeVersion);
         const downloadSuccess = await this.downloadRuntime(
           ampRuntimeVersion,
           outputDir,
@@ -73,15 +80,18 @@ const ampDisableCacheTransform = async (eleventyConfig, providedOptions = {}) =>
         // Runtime has been successfully downloaded, update params
         // to rewrite the script import URLs in subsequent transformations
         params.ampRuntimeVersion = ampRuntimeVersion;
-        params.ampUrlPrefix = ampUrlPrefix;
+        params.ampUrlPrefix = new URL(
+          path.join(options.pathPrefix, ampUrlPrefix),
+          options.host
+        ).toString();
       }
     }
 
-    async downloadRuntime(ampRuntimeVersion, ouputDir, runtimeDir) {
+    async downloadRuntime(ampRuntimeVersion, ouputDir, ampUrlPrefix) {
       if (availableRuntimes.has(ampRuntimeVersion)) {
         return true;
       }
-      const targetDir = path.join(ouputDir, runtimeDir);
+      const targetDir = path.join(ouputDir, ampUrlPrefix);
       if (fs.existsSync(targetDir)) {
         availableRuntimes.add(ampRuntimeVersion);
         return true;
@@ -89,6 +99,7 @@ const ampDisableCacheTransform = async (eleventyConfig, providedOptions = {}) =>
       // Create dir to avoid triggering multiple downloads
       fs.mkdirSync(targetDir, {recursive: true});
       const status = fetchRuntime.getRuntime({
+        rtv: ampRuntimeVersion,
         dest: ouputDir,
       }).status;
       if (status) {

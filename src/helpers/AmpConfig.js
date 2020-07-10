@@ -1,3 +1,4 @@
+const path = require('path');
 const ImageOptimizer = require('./ImageOptimizer');
 
 const AmpConfig = (providedOptions) => {
@@ -7,6 +8,8 @@ const AmpConfig = (providedOptions) => {
     dir: {
       output: '_site',
     },
+    pathPrefix: '',
+    workingDir: path.resolve('.'),
   };
 
   const options = Object.assign(defaultOptions, providedOptions);
