@@ -225,18 +225,20 @@ Optionally pass in an options object as the second argument to `addPlugin` to fu
 const ampPlugin = require('@ampproject/eleventy-plugin-amp');
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(ampPlugin, {
-    // Disable AMP Cache (enabled by default) and self-host the AMP runtime.
+    // Disable AMP Cache (enabled by default)
     ampCache: false,
+    // The host where the AMP runtime is being served from, the default is cdn.ampproject.org.
+    ampRuntimeHost: 'https://example.com',
     // The optional target dir as configured in `dir.output`. Required for image optimization
     // and AMP runtime self-hosting. Defaults to `_site`.
     // See https://www.11ty.dev/docs/config/#output-directory
     dir: {
       output: 'dist',
     }
+    // Download the AMP Runtime, default is false. Requires dir.output and ampRuntimeHost.
+    downloadAmpRuntime: true,
     // Only process files that match a regex.
     filter: /^.*amp.*$/,
-    // The host where the site is being served from, required for self-hosting the AMP runtime.
-    host: 'https://example.com',
     // Image support in Markdown files might require customizing the location of images assets, pass either a directory.
     imageBasePath: `${__dirname}/img`,
     // ... or a function that returns the correct path based on img src and outputPath.
