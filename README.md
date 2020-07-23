@@ -239,7 +239,8 @@ module.exports = function (eleventyConfig) {
     downloadAmpRuntime: true,
     // Only process files that match a regex.
     filter: /^.*amp.*$/,
-    // Image support in Markdown files might require customizing the location of images assets, pass either a directory.
+    // Image support in Markdown files might require customizing the location of images assets,
+    // pass either a directory.
     imageBasePath: `${__dirname}/img`,
     // ... or a function that returns the correct path based on img src and outputPath.
     imageBasePath: (imageSrc, outputPath) => `${outputPath}/../img`,
@@ -253,7 +254,9 @@ module.exports = function (eleventyConfig) {
     }
     // Disable CSS minification (enabled by default).
     minifyCss: false,
-    // If your site lives in a different subdirectory, use pathPrefix to specify this. Required when self-hosting the AMP runtime. See https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix
+    // If your site lives in a different subdirectory, use pathPrefix to specify this. Required
+    // when self-hosting the AMP runtime.
+    // See https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix
     pathPrefix: 'test',
     // Disable AMP validation (enabled by default).
     validation: false,
