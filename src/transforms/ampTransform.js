@@ -28,7 +28,7 @@ const ampTransform = (eleventyConfig, providedOptions = {}) => {
   const ampOptimizer = AmpOptimizer.create(options);
   const optimizerParamsPromise = maybeDownloadAmpRuntime(ampOptimizer.config);
 
-  eleventyConfig.addTransform('amp', async (content, outputPath) => {
+  eleventyConfig.addTransform(options.key || 'amp', async (content, outputPath) => {
     if (!options.isAmp(outputPath)) {
       return content;
     }
