@@ -1,6 +1,6 @@
 {
   "name": "@ampproject/eleventy-plugin-amp",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "AMP support for Eleventy.",
   "main": "src/.eleventy.js",
   "repository": {
@@ -41,9 +41,6 @@
   ],
   "author": "AMPHTML Team",
   "license": "Apache-2.0",
-  "peerDependencies": {
-    "@11ty/eleventy": ">=0.10.0"
-  },
   "devDependencies": {
     "@11ty/eleventy": "0.10.0",
     "eslint": "7.5.0",
@@ -56,7 +53,7 @@
   },
   "dependencies": {
     "@11ty/eleventy-img": "0.3.0",
-    "@ampproject/toolbox-optimizer": "2.5.12",
+    "@ampproject/toolbox-optimizer": "2.5.14",
     "@ampproject/toolbox-runtime-fetch": "2.5.13",
     "amphtml-validator": "1.0.31",
     "clean-css": "4.2.3",
