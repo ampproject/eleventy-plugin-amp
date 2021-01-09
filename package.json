@@ -55,7 +55,7 @@
     "@11ty/eleventy-img": "0.3.0",
     "@ampproject/toolbox-optimizer": "2.6.0",
     "@ampproject/toolbox-runtime-fetch": "2.6.0",
-    "amphtml-validator": "1.0.32",
+    "amphtml-validator": "1.0.34",
     "clean-css": "4.2.3",
     "probe-image-size": "5.0.0"
   },
