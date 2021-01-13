@@ -28,6 +28,7 @@
     "generator",
     "framework",
     "eleventy",
+    "eleventy-plugin",
     "11ty",
     "html",
     "markdown",
