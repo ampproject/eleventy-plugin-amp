@@ -18,16 +18,16 @@ const amp = require('../../src/.eleventy.js');
 
 module.exports = function (eleventyConfig) {
   // Enable AMP tags in markdown
-  let markdownIt = require('markdown-it');
+  let markdownOptions = require('markdown-it');
   let options = {
     html: true,
     breaks: true,
     linkify: true,
   };
-  eleventyConfig.setLibrary('md', markdownIt(options));
+  eleventyConfig.setLibrary('md', markdownOptions(options));
 
   // Add AMP support
   eleventyConfig.addPlugin(amp, {
-    // ...
+    imageOptimization: true,
   });
 };
