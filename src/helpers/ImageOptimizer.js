@@ -19,7 +19,17 @@ const path = require('path');
 const Image = require('@11ty/eleventy-img');
 const AmpConfig = require('./AmpConfig');
 
-const SUPPORTED_FORMATS = new Set(['heic', 'heif', 'jpeg', 'jpg', 'png', 'raw', 'tiff', 'webp']);
+const SUPPORTED_FORMATS = new Set([
+  'afiv',
+  'heic',
+  'heif',
+  'jpeg',
+  'jpg',
+  'png',
+  'raw',
+  'tiff',
+  'webp',
+]);
 const DEFAULT_FORMAT = 'jpeg';
 
 const DEFAULT_URL_PATH = '/img/';
