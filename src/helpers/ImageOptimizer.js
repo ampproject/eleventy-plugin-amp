@@ -20,7 +20,7 @@ const Image = require('@11ty/eleventy-img');
 const AmpConfig = require('./AmpConfig');
 
 const SUPPORTED_FORMATS = new Set([
-  'afiv',
+  'avif',
   'heic',
   'heif',
   'jpeg',
