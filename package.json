@@ -55,7 +55,7 @@
   "dependencies": {
     "@11ty/eleventy-img": "0.7.4",
     "@ampproject/toolbox-optimizer": "2.7.5",
-    "@ampproject/toolbox-runtime-fetch": "2.7.4",
+    "@ampproject/toolbox-runtime-fetch": "2.7.6",
     "amphtml-validator": "1.0.34",
     "clean-css": "4.2.3",
     "probe-image-size": "6.0.0"
