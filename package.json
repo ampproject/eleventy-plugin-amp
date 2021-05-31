@@ -43,22 +43,22 @@
   "author": "AMPHTML Team",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@11ty/eleventy": "0.11.1",
-    "eslint": "7.18.0",
-    "eslint-config-prettier": "7.2.0",
-    "eslint-plugin-html": "6.1.1",
-    "eslint-plugin-prettier": "3.3.1",
-    "jest": "26.6.3",
+    "@11ty/eleventy": "0.12.1",
+    "eslint": "7.27.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-html": "6.1.2",
+    "eslint-plugin-prettier": "3.4.0",
+    "jest": "27.0.3",
     "lerna-changelog": "1.0.1",
-    "prettier": "2.2.1"
+    "prettier": "2.3.0"
   },
   "dependencies": {
-    "@11ty/eleventy-img": "0.7.4",
-    "@ampproject/toolbox-optimizer": "2.7.5",
-    "@ampproject/toolbox-runtime-fetch": "2.7.4",
-    "amphtml-validator": "1.0.34",
-    "clean-css": "4.2.3",
-    "probe-image-size": "6.0.0"
+    "@11ty/eleventy-img": "0.9.0",
+    "@ampproject/toolbox-optimizer": "2.8.0",
+    "@ampproject/toolbox-runtime-fetch": "2.8.0",
+    "amphtml-validator": "1.0.35",
+    "clean-css": "5.1.2",
+    "probe-image-size": "7.1.1"
   },
   "bugs": {
     "url": "https://github.com/ampproject/eleventy-plugin-amp/issues"

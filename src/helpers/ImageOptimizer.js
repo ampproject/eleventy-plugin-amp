@@ -100,6 +100,10 @@ function extractImageFormat(src) {
     return DEFAULT_FORMAT;
   }
   fileExtension = fileExtension.substring(1).toLowerCase();
+  // Normalize to jpeg
+  if (fileExtension === 'jpg') {
+    fileExtension = 'jpeg';
+  }
   if (!SUPPORTED_FORMATS.has(fileExtension)) {
     return DEFAULT_FORMAT;
   }
