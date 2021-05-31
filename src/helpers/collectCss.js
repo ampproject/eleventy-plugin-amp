@@ -15,14 +15,8 @@
  */
 
 const minifyCss = require('./minifyCss');
-const {
-  appendChild,
-  insertText,
-  createElement,
-  nextNode,
-  firstChildByTag,
-  remove,
-} = require('@ampproject/toolbox-optimizer').NodeUtils;
+const {appendChild, insertText, createElement, nextNode, firstChildByTag, remove} =
+  require('@ampproject/toolbox-optimizer').NodeUtils;
 
 class CollectCss {
   constructor(config) {
