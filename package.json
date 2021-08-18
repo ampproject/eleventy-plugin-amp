@@ -53,7 +53,7 @@
     "prettier": "2.3.2"
   },
   "dependencies": {
-    "@11ty/eleventy-img": "0.9.0",
+    "@11ty/eleventy-img": "0.10.0",
     "@ampproject/toolbox-optimizer": "2.8.3",
     "@ampproject/toolbox-runtime-fetch": "2.8.0",
     "amphtml-validator": "1.0.35",
