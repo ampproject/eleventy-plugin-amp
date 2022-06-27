@@ -16,7 +16,8 @@
 
 const {configFunction} = require('./.eleventy.js');
 // load the default eleventy configuration handler
-const eleventyConfig = require('@11ty/eleventy/src/EleventyConfig');
+const UserConfig = require('@11ty/eleventy/src/UserConfig');
+const eleventyConfig = new UserConfig();
 
 test('has a valid configuration function', () => {
   expect(() => configFunction(eleventyConfig)).not.toThrow();
