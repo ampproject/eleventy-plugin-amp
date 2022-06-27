@@ -1,6 +1,6 @@
 {
   "name": "@ampproject/eleventy-plugin-amp",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "AMP support for Eleventy.",
   "main": "src/.eleventy.js",
   "repository": {
