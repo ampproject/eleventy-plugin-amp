@@ -43,7 +43,7 @@
   "author": "AMPHTML Team",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.1",
+    "@11ty/eleventy": "1.0.1",
     "eslint": "8.18.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-html": "6.2.0",
