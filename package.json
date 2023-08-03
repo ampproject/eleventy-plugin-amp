@@ -45,7 +45,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",
     "eslint": "8.18.0",
-    "eslint-config-prettier": "8.5.0",
+    "eslint-config-prettier": "8.10.0",
     "eslint-plugin-html": "6.2.0",
     "eslint-plugin-prettier": "4.0.0",
     "jest": "28.1.1",
