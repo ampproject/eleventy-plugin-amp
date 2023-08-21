@@ -50,7 +50,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "jest": "28.1.1",
     "lerna-changelog": "2.2.0",
-    "prettier": "2.7.1"
+    "prettier": "2.8.8"
   },
   "dependencies": {
     "@11ty/eleventy-img": "2.0.1",
