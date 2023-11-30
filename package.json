@@ -57,7 +57,7 @@
     "@ampproject/toolbox-optimizer": "2.9.0",
     "@ampproject/toolbox-runtime-fetch": "2.9.0",
     "amphtml-validator": "1.0.35",
-    "clean-css": "5.3.0",
+    "clean-css": "5.3.3",
     "eleventy": "^1.0.6",
     "probe-image-size": "7.2.3"
   },
